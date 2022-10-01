@@ -1,40 +1,35 @@
 <template>
-	<view class="index-container">
-		<NavBar></NavBar>
-		<view>1</view>
-		<view>2</view>
-		<view>3</view>
-		<view>4</view>
-		<view>5</view>
-		<view>6</view>
-		<view>7</view>
-		<view>8</view>
-		<view>9</view>
-		<view>10</view>
-		<view>1</view>
-		<view>1</view>
-		<view>1</view>
-		<view>1</view>
-	</view>
+  <view class="index-container">
+    <NavBar></NavBar>
+    <TabBar :labelList="labelList"></TabBar>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
-	}
+export default {
+  data() {
+    return {
+      labelList: [],
+    };
+  },
+  onLoad() {
+    this._initLabel();
+  },
+  methods: {
+    _initLabel() {
+      uniCloud.callFunction({
+        name: "get_label_list",
+        success: (res) => {
+          this.labelList = res.result.labelList;
+        },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-	.index-container {
-		// @include flex();
-	}
+.index-container {
+  // @include flex();
+}
 </style>
