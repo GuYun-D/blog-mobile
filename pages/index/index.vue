@@ -27,9 +27,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.index-container {
-  // @include flex();
-}
-</style>
