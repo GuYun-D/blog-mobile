@@ -16,13 +16,9 @@ export default {
     this._initLabel();
   },
   methods: {
-    _initLabel() {
-      uniCloud.callFunction({
-        name: "get_label_list",
-        success: (res) => {
-          this.labelList = res.result.labelList;
-        },
-      });
+    async _initLabel() {
+			const labelList = await this.$http.getLabelListApi()
+			this.labelList = labelList
     },
   },
 };
