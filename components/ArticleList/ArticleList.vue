@@ -1,7 +1,7 @@
 <template>
 	<swiper class="swiper-container" easing-function="easeOutCubic" :current="activeIndex" @change="handleChangeIndex">
-		<swiper-item v-for="(item, index) in labelList" :key="index">
-			<view class="swiper-item"><ListItem :articleList="articleList"></ListItem></view>
+		<swiper-item v-for="(item, index) in labelList" :key="item.id">
+			<view class="swiper-item"><ListItem :articleList="articleList[index] || []"></ListItem></view>
 		</swiper-item>
 	</swiper>
 </template>
@@ -24,14 +24,16 @@ export default {
 	},
 	data() {
 		return {
-			articleList: []
+			articleList: {}
 		};
 	},
 
 	methods: {
 		handleChangeIndex(e) {
 			this.$emit('changeActiveIndex', e.detail.current);
-			this.getArticleList(e.detail.current)
+			if (!this.articleList[e.detail.current] || !this.articleList[e.detail.current].length) {
+				this.getArticleList(e.detail.current);
+			}
 		},
 
 		// 获取文章列表
@@ -39,14 +41,17 @@ export default {
 			const articleList = await this.$http.getArticleListApi({
 				classify: this.labelList[index].name
 			});
-			this.articleList = articleList;
+			// this.articleList = articleList;
+			this.$set(this.articleList, index, articleList);
 		}
 	},
 
 	watch: {
 		labelList: {
 			handler(newValue) {
-				this.getArticleList(this.activeIndex);
+				if (newValue.length) {
+					this.getArticleList(this.activeIndex);
+				}
 			},
 			immediate: true,
 			deep: true
