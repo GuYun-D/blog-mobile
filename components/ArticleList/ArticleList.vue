@@ -1,8 +1,8 @@
 <template>
-	<swiper :current="activeIndex" @change="handleChangeIndex">
+	<swiper class="swiper-container" easing-function="easeOutCubic" :current="activeIndex" @change="handleChangeIndex">
 		<swiper-item v-for="(item, index) in labelList" :key="index">
 			<view class="swiper-item">
-				{{ item.name }}
+				<ListItem></ListItem>
 			</view>
 		</swiper-item>
 	</swiper>
@@ -22,8 +22,7 @@
 			},
 		},
 		data() {
-			return {
-			};
+			return {};
 		},
 
 		methods: {
@@ -35,4 +34,12 @@
 </script>
 
 <style lang="scss" scoped>
+	.swiper-container {
+		height: 100%;
+
+		.swiper-item {
+			height: 100%;
+			overflow: hidden;
+		}
+	}
 </style>
