@@ -2,52 +2,51 @@
 	<view class="index-container">
 		<NavBar></NavBar>
 		<TabBar @changeActiveIndex="handleChangeActiveIndex" :activeIndex="activeIndex" :labelList="labelList"></TabBar>
-		<ArticleList @changeActiveIndex="handleChangeActiveIndex" :activeIndex="activeIndex" :labelList="labelList"
-			class="list-container"></ArticleList>
+		<ArticleList @changeActiveIndex="handleChangeActiveIndex" :activeIndex="activeIndex" :labelList="labelList" class="list-container"></ArticleList>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				labelList: [],
-				activeIndex: 0
-			};
+export default {
+	data() {
+		return {
+			labelList: [],
+			activeIndex: 0
+		};
+	},
+	onLoad() {
+		this._initLabel();
+	},
+	methods: {
+		async _initLabel() {
+			const labelList = await this.$http.getLabelListApi();
+			this.labelList = [{ name: '全部' }, ...labelList];
 		},
-		onLoad() {
-			this._initLabel();
-		},
-		methods: {
-			async _initLabel() {
-				const labelList = await this.$http.getLabelListApi();
-				this.labelList = labelList;
-			},
 
-			// 监听点击导航栏
-			handleChangeActiveIndex(index) {
-				this.activeIndex = index
-			}
-		},
-	};
+		// 监听点击导航栏
+		handleChangeActiveIndex(index) {
+			this.activeIndex = index;
+		}
+	}
+};
 </script>
 
 <style lang="scss">
-	page {
-		display: flex;
-		height: 100%;
-	}
+page {
+	display: flex;
+	height: 100%;
+}
 
-	.index-container {
-		flex: 1;
-		box-sizing: border-box;
-		@include flex(flex-start, column);
-		overflow: hidden;
-		align-items: inherit;
-	}
+.index-container {
+	flex: 1;
+	box-sizing: border-box;
+	@include flex(flex-start, column);
+	overflow: hidden;
+	align-items: inherit;
+}
 
-	.list-container {
-		flex: 1;
-		box-sizing: border-box;
-	}
+.list-container {
+	flex: 1;
+	box-sizing: border-box;
+}
 </style>

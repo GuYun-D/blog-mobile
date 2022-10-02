@@ -20,6 +20,7 @@
 
 	&-content {
 		@include flex(space-between, column);
+		align-items: flex-start;
 		padding-left: 20rpx;
 		width: 100%;
 
@@ -109,8 +110,8 @@
 				border-radius: 10rpx;
 			}
 		}
-		
-		.list-card-middle{
+
+		.list-card-middle {
 			font-size: 28rpx;
 			color: #333;
 		}

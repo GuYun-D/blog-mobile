@@ -1,18 +1,20 @@
 <template>
-	<view class="list-card-container">
+	<view class="list-card-container" v-if="item">
 		<!-- 基础卡片 -->
 		<view class="list-card" v-if="item.mode === 'base'">
-			<view class="list-card-img"><image src="https://img1.baidu.com/it/u=3787473611,3330068340&fm=253&fmt=auto&app=138&f=JPEG?w=744&h=389" mode="aspectFill"></image></view>
+			<view class="list-card-img">
+				<image :src="item.cover[0] || 'https://img2.baidu.com/it/u=2040056122,3729491996&fm=253&fmt=auto&app=138&f=JPEG?w=499&h=361'" mode="aspectFill"></image>
+			</view>
 
 			<view class="list-card-content">
 				<view class="list-card-content-title">
-					<text>你还不会用你还不会用你还不会用你还不会用你还不会用你还不会用你还不会用uniapp？</text>
+					<text>{{ item.title }}</text>
 					<SaveLikes></SaveLikes>
 				</view>
 
 				<view class="list-card-content-description">
-					<view class="article-type">前端开发</view>
-					<view class="browse-number">293浏览</view>
+					<view class="article-type">{{ item.classify }}</view>
+					<view class="browse-number">{{ item.browse_count }}浏览</view>
 				</view>
 			</view>
 		</view>
@@ -20,19 +22,17 @@
 		<!-- 多图模式 -->
 		<view class="list-card mode-column" v-if="item.mode === 'colum'">
 			<view class="list-card-top">
-				<text>你还不会用你还不会用你还不会用你还不会用你还不会用你还不会用你还不会用uniapp？</text>
+				<text>{{ item.title }}</text>
 				<SaveLikes></SaveLikes>
 			</view>
 
 			<view class="list-card-middle">
-				<view class="image-container" v-for="(item, index) in 3" :key="index">
-					<image src="https://img1.baidu.com/it/u=3787473611,3330068340&fm=253&fmt=auto&app=138&f=JPEG?w=744&h=389" mode="aspectFill"></image>
-				</view>
+				<view class="image-container" v-for="(img, index) in item.cover.slice(0, 3)" :key="index"><image :src="img"></image></view>
 			</view>
 
 			<view class="list-card-content-description list-card-bottom">
-				<view class="article-type">前端开发</view>
-				<view class="browse-number">293浏览</view>
+				<view class="article-type">{{ item.classify }}</view>
+				<view class="browse-number">{{ item.browse_count }}</view>
 			</view>
 		</view>
 
@@ -40,17 +40,17 @@
 
 		<view class="list-card mode-img" v-if="item.mode === 'image'">
 			<view class="list-card-top">
-				<view class="image-container"><image src="https://img1.baidu.com/it/u=3787473611,3330068340&fm=253&fmt=auto&app=138&f=JPEG?w=744&h=389" mode="aspectFill"></image></view>
+				<view class="image-container"><image :src="item.cover[0]" mode="aspectFill"></image></view>
 			</view>
 
 			<view class="list-card-middle">
-				<text>你还不会用你还不会用你还不会用你还不会用你还不会用你还不会用你还不会用uniapp？</text>
+				<text>{{ item.title }}</text>
 				<SaveLikes></SaveLikes>
 			</view>
 
 			<view class="list-card-content-description list-card-bottom">
-				<view class="article-type">前端开发</view>
-				<view class="browse-number">293浏览</view>
+				<view class="article-type">{{ item.classify }}</view>
+				<view class="browse-number">{{ item.browse_count }}</view>
 			</view>
 		</view>
 	</view>

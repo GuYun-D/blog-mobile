@@ -6,3 +6,10 @@ export const getLabelListApi = (data) => {
 		data
 	});
 };
+
+export const getArticleListApi = (data) => {
+	return request({
+		name: "get_article_list",
+		data
+	})
+}
