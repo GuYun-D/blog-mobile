@@ -1,7 +1,7 @@
 <template>
 	<swiper class="swiper-container" easing-function="easeOutCubic" :current="activeIndex" @change="handleChangeIndex">
 		<swiper-item v-for="(item, index) in labelList" :key="item.id">
-			<view class="swiper-item"><ListItem :articleList="articleList[index] || []"></ListItem></view>
+			<view class="swiper-item"><ListItem :loadData="loadData[activeIndex]" @loadMore="handleLoadMore" :articleList="articleList[index] || []"></ListItem></view>
 		</swiper-item>
 	</swiper>
 </template>
@@ -24,7 +24,10 @@ export default {
 	},
 	data() {
 		return {
-			articleList: {}
+			articleList: {},
+			loadData: {},
+			page: 1,
+			pageSize: 6
 		};
 	},
 
@@ -38,11 +41,42 @@ export default {
 
 		// 获取文章列表
 		async getArticleList(index) {
-			const articleList = await this.$http.getArticleListApi({
-				classify: this.labelList[index].name
+			// 指定每一个分类里面的页数信息
+			if (!this.loadData[index]) {
+				this.loadData[index] = {
+					page: 1,
+					loading: 'loading',
+					total: 0
+				};
+			}
+
+			const { articleList, total } = await this.$http.getArticleListApi({
+				classify: this.labelList[index].name,
+				page: this.loadData[index].page,
+				pageSize: this.pageSize
 			});
+			let oldList = this.articleList[index] || [];
+			oldList.push(...articleList);
 			// this.articleList = articleList;
-			this.$set(this.articleList, index, articleList);
+			this.$set(this.articleList, index, oldList);
+			this.loadData[index].total = total;
+		},
+
+		// 加载更多
+		handleLoadMore() {
+			if (this.loadData[this.activeIndex].total <= this.articleList[this.activeIndex].length) {
+				this.loadData[this.activeIndex] = {
+					...this.loadData[this.activeIndex],
+					...{
+						loading: 'noMore'
+					}
+				};
+
+				this.$forceUpdate();
+				return;
+			}
+			this.loadData[this.activeIndex].page++;
+			this.getArticleList(this.activeIndex);
 		}
 	},
 

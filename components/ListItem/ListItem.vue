@@ -1,7 +1,10 @@
 <template>
 	<view class="list-item-container">
-		<scroll-view scroll-y="true" class="list-scroll">
-			<view><ListCard v-for="item in articleList" :item="item" :key="item.id"></ListCard></view>
+		<scroll-view scroll-y="true" @scrolltolower="handleListDown" class="list-scroll">
+			<view>
+				<ListCard v-for="item in articleList" :item="item" :key="item.id"></ListCard>
+				<uni-load-more v-if="articleList.length === 0 || articleList.length > 7" :status="loadData.loading || 'loading'" iconType="snow"></uni-load-more>
+			</view>
 		</scroll-view>
 	</view>
 </template>
@@ -13,10 +16,23 @@ export default {
 		articleList: {
 			type: Array,
 			required: true
+		},
+		loadData: {
+			type: Object,
+			default: () => {
+				return {
+					loading: 'loading'
+				};
+			}
 		}
 	},
 	data() {
 		return {};
+	},
+	methods: {
+		handleListDown() {
+			this.$emit('loadMore');
+		}
 	}
 };
 </script>
