@@ -1,10 +1,12 @@
 import App from './App'
 import module from "./ajax/api/index.js"
+import userMixin from './common/rulesMixin'
 
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
 Vue.prototype.$http = module
+Vue.use(userMixin)
 App.mpType = 'app'
 const app = new Vue({
 	...App
