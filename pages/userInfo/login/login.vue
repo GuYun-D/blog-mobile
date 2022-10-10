@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -90,15 +91,34 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["updateUserInfo"]),
     async _userLoginSubmit() {
       const res = await this.$refs.form.validate();
-      console.log(res);
+      this._sendUserInfo({
+        ...res,
+        type: this.type,
+      });
     },
 
     handleChangeLoginType(type) {
       this.type = type;
       // 清空验证
       this.$refs.form.clearValidate([]);
+    },
+
+    async _sendUserInfo() {
+      const userInfo = await this.$http.user_login(this.formData);
+      if (userInfo) {
+        this.updateUserInfo(userInfo);
+        uni.showToast({
+          title: "登录成功",
+          duration: 2000,
+        });
+
+        setTimeout(() => {
+          uni.navigateBack();
+        }, 1500);
+      }
     },
   },
 };

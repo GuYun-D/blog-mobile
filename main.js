@@ -1,6 +1,7 @@
 import App from './App'
 import module from "./ajax/api/index.js"
 import userMixin from './common/rulesMixin'
+import store from './store/index.js'
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -9,7 +10,8 @@ Vue.prototype.$http = module
 Vue.use(userMixin)
 App.mpType = 'app'
 const app = new Vue({
-	...App
+	...App,
+	store
 })
 app.$mount()
 // #endif
