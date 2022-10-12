@@ -62,7 +62,7 @@
             placeholder="请输入验证码"
             v-model="formData.vCode"
           />
-          <SendCode></SendCode>
+          <SendCode @getForm="getFOrm"></SendCode>
         </uni-forms-item>
       </view>
 
@@ -79,6 +79,9 @@
 <script>
 import { mapMutations } from "vuex";
 export default {
+  onReady() {
+    this.$refs.form.setRules(this.userRules);
+  },
   data() {
     return {
       formData: {
@@ -119,6 +122,11 @@ export default {
           uni.navigateBack();
         }, 1500);
       }
+    },
+
+    // 像验证码组件发送form表单组件
+    getFOrm(cb) {
+      cb && cb(this.$refs.form);
     },
   },
 };

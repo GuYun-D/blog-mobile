@@ -1,11 +1,60 @@
 <template>
   <view class="code-container">
-    <view class="vCode-btn"> 获取验证码 </view>
+    <view class="vCode-btn" @click="getForm">
+      {{ runtime ? `${time}s后获取` : "获取验证码" }}
+    </view>
   </view>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    form: Object,
+  },
+  data() {
+    return {
+      timer: null,
+      time: 60,
+      runtime: false,
+    };
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+    this.timer = null;
+    this.runtime = false;
+    this.time = 60;
+  },
+  methods: {
+    // 获取form的ref
+    getForm() {
+      if (this.runtime) {
+        return;
+      }
+      this.$emit("getForm", this.sendeCode);
+    },
+    async sendeCode(form) {
+      const { phone } = await form.validateField(["phone"]);
+      const res = await this.$http.get_code({ phone });
+      console.log("验证码请求", res);
+      this.runtime = true;
+      this.timeRunning();
+    },
+
+    // 定时器计时
+    timeRunning() {
+      this.timer = setInterval(() => {
+        if (this.time === 1) {
+          clearInterval(this.timer);
+          this.timer = null;
+          this.runtime = false;
+          this.time = 60;
+          return;
+        }
+        this.time--;
+      }, 1000);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -17,7 +66,7 @@ export default {};
     background-color: $base-color;
     color: #fff;
     padding: 20rpx;
-    opacity: .8;
+    opacity: 0.8;
     border-radius: 10rpx;
   }
 }
