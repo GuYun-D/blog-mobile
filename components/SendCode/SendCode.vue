@@ -34,8 +34,12 @@ export default {
     },
     async sendeCode(form) {
       const { phone } = await form.validateField(["phone"]);
-      const res = await this.$http.get_code({ phone });
-      console.log("验证码请求", res);
+      const { mobileCode, msg } = await this.$http.get_code({ phone });
+      uni.showToast({
+        title: msg,
+        duration: 2000
+      });
+      this.$emit('setCurrentCode', mobileCode)
       this.runtime = true;
       this.timeRunning();
     },

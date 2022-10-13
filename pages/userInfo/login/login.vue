@@ -62,7 +62,10 @@
             placeholder="请输入验证码"
             v-model="formData.vCode"
           />
-          <SendCode @getForm="getFOrm"></SendCode>
+          <SendCode
+            @setCurrentCode="handleSetCurrentCode"
+            @getForm="getFOrm"
+          ></SendCode>
         </uni-forms-item>
       </view>
 
@@ -91,6 +94,7 @@ export default {
         vCode: "",
       },
       type: "account",
+      returnCode: "",
     };
   },
   methods: {
@@ -127,6 +131,11 @@ export default {
     // 像验证码组件发送form表单组件
     getFOrm(cb) {
       cb && cb(this.$refs.form);
+    },
+
+    // 设置验证码
+    handleSetCurrentCode(code) {
+      this.returnCode = code;
     },
   },
 };
