@@ -1,3 +1,3 @@
 export default {
-  userInfo: uni.getStorageSync("userInfo") || null,
+  userInfo: uni.getStorageSync("user_info") || null
 };

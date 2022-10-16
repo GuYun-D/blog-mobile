@@ -6,8 +6,8 @@ import mutations from "./mutations.js";
 
 Vue.use(VueX);
 
-export default {
+export default new VueX.Store({
   state,
   mutations,
   actions,
-};
+});

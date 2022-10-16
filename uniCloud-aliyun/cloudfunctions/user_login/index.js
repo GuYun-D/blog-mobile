@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
 	const {
 		affectedDocs,
 		data
-	} = db
+	} = await db
 		.collection('user')
 		.aggregate()
 		.match(type === 'account' ? {
@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
 		})
 		.end()
 
-	//返回数据给客户端
+	// 返回数据给客户端
 	return affectedDocs ? {
 		code: 0,
 		msg: "获取用户信息成功",
@@ -31,4 +31,12 @@ exports.main = async (event, context) => {
 		code: 1,
 		msg: type === 'account' ? '获取用户失败，请检查手机号或密码' : '获取用户失败，请检查手机号或验证码'
 	}
+
+	// return {
+	// 	code: 0,
+	// 	data: res
+	// }
+
+
+	// return res
 };

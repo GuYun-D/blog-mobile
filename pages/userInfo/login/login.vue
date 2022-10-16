@@ -114,7 +114,12 @@ export default {
     },
 
     async _sendUserInfo() {
-      const userInfo = await this.$http.user_login(this.formData);
+      const _this = this
+      const userInfo = await this.$http.user_login({
+        ...this.formData,
+        type: this.type,
+      });
+
       if (userInfo) {
         this.updateUserInfo(userInfo);
         uni.showToast({

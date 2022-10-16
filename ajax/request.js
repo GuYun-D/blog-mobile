@@ -12,7 +12,6 @@ export default ({
 				result
 			}) => {
 				if (result.code === 0) {
-					console.log('操了', result);
 					resolve(result.data);
 				} else {
 					uni.showToast({
