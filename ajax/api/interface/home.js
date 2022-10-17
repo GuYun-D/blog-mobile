@@ -27,3 +27,11 @@ export const update_save_like = (data) => {
     data,
   });
 };
+
+// 搜索文章
+export const get_search_data = (data) => {
+  return request({
+    name: "get_search_data",
+    data,
+  });
+};

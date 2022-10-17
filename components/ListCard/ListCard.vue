@@ -1,5 +1,5 @@
 <template>
-  <view class="list-card-container" v-if="item">
+  <view class="list-card-container" v-if="item" @click="goArticleDetail">
     <!-- 基础卡片 -->
     <view class="list-card" v-if="item.mode === 'base'">
       <view class="list-card-img">
@@ -80,6 +80,12 @@ export default {
   },
   data() {
     return {};
+  },
+
+  methods: {
+    goArticleDetail() {
+      this.$emit("saveSearchHistory");
+    },
   },
 };
 </script>
