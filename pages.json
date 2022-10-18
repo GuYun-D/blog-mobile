@@ -36,6 +36,15 @@
 				"navigationBarBackgroundColor": "#f25037",
 				"navigationBarTextStyle": "#fff"
 			}
+		},
+		{
+			"path": "pages/labelAdmin/labelAdmin",
+			"style": {
+				"navigationBarTitleText": "标签管理",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#f25037",
+				"navigationBarTextStyle": "#fff"
+			}
 		}
 	],
 	"globalStyle": {

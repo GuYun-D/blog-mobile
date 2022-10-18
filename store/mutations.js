@@ -22,4 +22,10 @@ export default {
     uni.removeStorageSync("save_search_history");
     state.historyList = null;
   },
+
+  // labelList
+  setLabelList(state, labelList) {
+    uni.setStorageSync("labelList", labelList);
+    state.labelList = labelList;
+  },
 };
