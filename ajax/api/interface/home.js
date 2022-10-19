@@ -35,3 +35,11 @@ export const get_search_data = (data) => {
     data,
   });
 };
+
+// 更新选项卡
+export const update_label_ids = (data) => {
+  return request({
+    name: "update_label_ids",
+    data,
+  });
+};

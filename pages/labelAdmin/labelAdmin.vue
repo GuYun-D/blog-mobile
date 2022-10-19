@@ -9,10 +9,15 @@
       </view>
 
       <view class="label-content">
-        <view class="label-content-item" v-for="item in 8" :key="item">
-          前端开发
+        <view
+          class="label-content-item"
+          v-for="item in selLabelList"
+          :key="item._id"
+        >
+          {{ item.name }}
 
           <uni-icons
+            @click="deleteLabelItem(item)"
             v-if="isEdit"
             class="icon-close"
             type="clear"
@@ -20,7 +25,7 @@
           ></uni-icons>
         </view>
 
-        <view class="no-data"> 当前没有数据 </view>
+        <view v-if="!selLabelList.length" class="no-data"> 当前没有数据 </view>
       </view>
     </view>
 
@@ -30,11 +35,18 @@
       </view>
 
       <view class="label-content">
-        <view class="label-content-item" v-for="item in 7" :key="item">
-          前端开发
+        <view
+          @click="handleChangeSelList(item)"
+          class="label-content-item"
+          v-for="item in recommentLabelList"
+          :key="item._id"
+        >
+          {{ item.name }}
         </view>
 
-        <view class="no-data"> 当前没有数据 </view>
+        <view v-if="!recommentLabelList.length" class="no-data">
+          当前没有数据
+        </view>
       </view>
     </view>
   </view>
@@ -46,6 +58,7 @@ export default {
   data() {
     return {
       isEdit: false,
+      labelListIds: ["6336f791702e9d00019e7096", "6336f791702e9d00019e7099"],
     };
   },
   methods: {
@@ -56,12 +69,42 @@ export default {
     },
 
     async updateLabel() {
-      console.log(1);
+      const labelIds = this.selLabelList.map((item) => item._id);
+      const { msg } = await this.$http.update_label_ids({
+        userId: this.userInfo._id,
+        labelIds,
+      });
+
+      uni.showToast({
+        title: msg,
+        duration: 2000,
+      });
+    },
+
+    handleChangeSelList(item) {
+      if (!this.isEdit) return;
+      this.labelListIds.push(item._id);
+    },
+
+    deleteLabelItem(item) {
+      this.labelListIds = this.labelListIds.filter((id) => id !== item._id);
     },
   },
 
   computed: {
     ...mapState(["labelList"]),
+
+    selLabelList() {
+      return this.labelList.filter((item) =>
+        this.labelListIds.includes(item._id)
+      );
+    },
+
+    recommentLabelList() {
+      return this.labelList.filter(
+        (item) => !this.labelListIds.includes(item._id)
+      );
+    },
   },
 };
 </script>
