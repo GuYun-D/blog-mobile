@@ -1,19 +1,21 @@
 <template>
   <view class="article-detail-container">
-    <view class="detail-title"> 故宫博物院开奖 </view>
+    <view class="detail-title"> {{ articleDetail.title }} </view>
 
     <view class="detail-header">
       <view class="detail-logo">
-        <image src="../../static/img/logo.jpeg" mode="aspectFill" />
+        <image :src="articleDetail.author.avatar" mode="aspectFill" />
       </view>
 
       <view class="detail-header-conten">
-        <view class="detail-header-contant-title"> web 讲师 </view>
+        <view class="detail-header-contant-title">
+          {{ articleDetail.author.author_name }}
+        </view>
 
         <view class="info">
-          <text>2020.02.12 17:50</text>
-          <text>173 浏览</text>
-          <text>6赞</text>
+          <text>{{ articleDetail.create_time }}</text>
+          <text>{{ articleDetail.browse_count }} 浏览</text>
+          <text>{{ articleDetail.thumbs_up_count }}赞</text>
         </view>
       </view>
 
@@ -21,7 +23,13 @@
     </view>
 
     <view class="detail-content-container">
-      <view class="detail-html"> 文本内容 </view>
+      <view class="detail-html">
+        <u-parse
+          :content="content"
+          @preview="preview"
+          @navigate="navigate"
+        ></u-parse>
+      </view>
     </view>
 
     <!-- 评论输入组件 -->
@@ -49,14 +57,45 @@
 </template>
 
 <script>
+import uParse from "@/components/u-parse/u-parse.vue";
+import { marked } from "marked";
+
 export default {
-  data() {
-    return {};
+  components: {
+    uParse,
   },
-  methods: {},
+  data() {
+    return {
+      articleDetail: null,
+    };
+  },
+  methods: {
+    async getArticleDetail() {
+      const res = await this.$http.get_article_detail({
+        article_id: this.articleDetail._id,
+      });
+
+      this.articleDetail = res;
+    },
+  },
+
+  onLoad(options) {
+    this.articleDetail = JSON.parse(options.params);
+    // 文章详情
+    this.getArticleDetail();
+  },
+
+  computed: {
+    content() {
+      return this.articleDetail.content
+        ? marked(this.articleDetail.content)
+        : "";
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "./css/articleDetail.scss";
+@import url("@/components/u-parse/u-parse.css");
 </style>

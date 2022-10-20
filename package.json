@@ -1,0 +1,22 @@
+{
+  "name": "acticle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuYun-D/blog-mobile.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuYun-D/blog-mobile/issues"
+  },
+  "homepage": "https://github.com/GuYun-D/blog-mobile#readme",
+  "dependencies": {
+    "marked": "^4.1.1"
+  }
+}

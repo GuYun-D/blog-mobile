@@ -86,8 +86,21 @@ export default {
     goArticleDetail() {
       this.$emit("saveSearchHistory");
 
+      console.log(this.item);
+      const { _id, title, author, create_time, thumbs_up_count, browse_count } =
+        this.item;
+      const params = {
+        _id,
+        title,
+        author,
+        create_time,
+        thumbs_up_count,
+        browse_count,
+      };
       uni.navigateTo({
-        url: "/pages/articleDetail/articleDetail",
+        url: `/pages/articleDetail/articleDetail?params=${JSON.stringify(
+          params
+        )}`,
       });
     },
   },

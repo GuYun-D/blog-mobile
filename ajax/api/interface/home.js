@@ -43,3 +43,11 @@ export const update_label_ids = (data) => {
     data,
   });
 };
+
+// 文章详情
+export const get_article_detail = (data) => {
+  return request({
+    name: "get_article_detail",
+    data,
+  });
+};

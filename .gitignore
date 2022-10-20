@@ -2,3 +2,5 @@
 .hbuilderx
 .test.html
 test.html
+node_modules
+u-parse
