@@ -85,6 +85,10 @@ export default {
   methods: {
     goArticleDetail() {
       this.$emit("saveSearchHistory");
+
+      uni.navigateTo({
+        url: "/pages/articleDetail/articleDetail",
+      });
     },
   },
 };

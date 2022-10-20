@@ -45,6 +45,15 @@
 				"navigationBarBackgroundColor": "#f25037",
 				"navigationBarTextStyle": "#fff"
 			}
+		},
+		{
+			"path": "pages/articleDetail/articleDetail",
+			"style": {
+				"navigationBarTitleText": "文章详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#f25037",
+				"navigationBarTextStyle": "#fff"
+			}
 		}
 	],
 	"globalStyle": {
