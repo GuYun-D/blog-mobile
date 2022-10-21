@@ -34,7 +34,7 @@
 
     <!-- 评论输入组件 -->
     <view class="detail-bottom">
-      <view class="input-con">
+      <view class="input-con" @click="opMaskerComment">
         <text>谈谈你的看法</text>
         <uni-icons size="16" color="#f07373" type="compose"></uni-icons>
       </view>
@@ -53,6 +53,12 @@
         </view>
       </view>
     </view>
+
+    <commonMaker
+      @close="showPopup = false"
+      @confirm="handleSendComment"
+      :showPopup="showPopup"
+    ></commonMaker>
   </view>
 </template>
 
@@ -67,6 +73,7 @@ export default {
   data() {
     return {
       articleDetail: null,
+      showPopup: false,
     };
   },
   methods: {
@@ -76,6 +83,26 @@ export default {
       });
 
       this.articleDetail = res;
+    },
+
+    // 打开弹窗
+    async opMaskerComment() {
+      await this.checkedIsLogin();
+      this.showPopup = true;
+    },
+
+    // 发送评论
+    async handleSendComment(text) {
+      const res = await this.$http.update_comment({
+        userId: this.userInfo._id,
+        article_id: this.articleDetail._id,
+        content: text,
+      });
+      uni.showToast({
+        title: "评论成功",
+        duration: 2000,
+      });
+      this.showPopup = false;
     },
   },
 

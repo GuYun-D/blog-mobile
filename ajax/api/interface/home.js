@@ -51,3 +51,11 @@ export const get_article_detail = (data) => {
     data,
   });
 };
+
+// 发布评论
+export const update_comment = (data) => {
+  return request({
+    name: "update_comment",
+    data,
+  });
+};
