@@ -22,7 +22,7 @@
       <button type="default" class="detail-header-button">取消关注</button>
     </view>
 
-    <view class="detail-content-container">
+    <!-- <view class="detail-content-container">
       <view class="detail-html">
         <u-parse
           :content="content"
@@ -30,6 +30,19 @@
           @navigate="navigate"
         ></u-parse>
       </view>
+    </view> -->
+
+    <!-- 评论列表 -->
+    <view class="detail-comment">
+      <view class="comment-title"> 最近评论 </view>
+      <view
+        class="comment-content-container"
+        v-for="item in commentList"
+        :key="item._comment_id"
+      >
+        <CommentBox :commentData="item"></CommentBox>
+      </view>
+      <view v-if="!commentList.length" class="no-data"> 暂无评论 </view>
     </view>
 
     <!-- 评论输入组件 -->
@@ -74,6 +87,7 @@ export default {
     return {
       articleDetail: null,
       showPopup: false,
+      commentList: [],
     };
   },
   methods: {
@@ -104,12 +118,24 @@ export default {
       });
       this.showPopup = false;
     },
+
+    // 获取评论列表
+    async getCommentList() {
+      const res = await this.$http.get_comment({
+        articleId: this.article_id,
+      });
+
+      this.commentList = res;
+    },
   },
 
   onLoad(options) {
     this.articleDetail = JSON.parse(options.params);
     // 文章详情
     this.getArticleDetail();
+
+    // 初始化评论
+    this.getCommentList();
   },
 
   computed: {

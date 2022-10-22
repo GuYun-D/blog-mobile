@@ -15,3 +15,11 @@ export const get_code = (data) => {
     data,
   });
 };
+
+// 获取文章的评论列表
+export const get_comment = (data) => {
+  return request({
+    name: "get_comment",
+    data,
+  });
+};
